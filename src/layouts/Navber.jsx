@@ -16,12 +16,12 @@ const Navber = ({is_authenticated}) => {
           <NavbarLink href="#" active>
             Home
           </NavbarLink>
-          <NavbarLink as={Link} to="/about">
+          <NavbarLink as={Link} to="#">
             About
           </NavbarLink>
-          <NavbarLink as={Link} to="/services">Services</NavbarLink>
-          <NavbarLink as={Link} to="/pricing">Pricing</NavbarLink>
-          <NavbarLink as={Link} to="/contact">Contact</NavbarLink>
+          <NavbarLink as={Link} to="/#">Services</NavbarLink>
+          <NavbarLink as={Link} to="#">Pricing</NavbarLink>
+          <NavbarLink as={Link} to="#">Contact</NavbarLink>
           
           <ProfileMenu is_authenticated={is_authenticated}/>
         </NavbarCollapse>
