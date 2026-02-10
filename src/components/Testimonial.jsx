@@ -140,7 +140,7 @@ export default function Testimonials() {
           <p className="text-slate-400 text-base sm:text-lg mb-6">
             Ready to book your next stay in Bangladesh?
           </p>
-          <button className="group relative px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 inline-flex items-center gap-2">
+          <button onClick={() => window.location.href = "/hotels"} className="group relative px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 inline-flex items-center gap-2">
             <span className="relative z-10">Start Exploring Hotels</span>
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>

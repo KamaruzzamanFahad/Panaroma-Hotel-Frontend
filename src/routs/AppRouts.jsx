@@ -12,6 +12,7 @@ import ResendVerification from '../pages/resendemail'
 import HotelDetailsPage from '../pages/HotelDetils'
 import HotelDashboard from '../layouts/Dashboard'
 import PaymentStatus from '../layouts/PaymentStatus'
+import HotelList from '../components/HotelList'
 
 const AppRouts = () => {
     axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || "https://penorama-hotel.vercel.app/api/v1/";
@@ -26,6 +27,7 @@ const AppRouts = () => {
       <Route path="auth/activate/:uid/:token" element={<Activate />} />
       <Route path="auth/resend-verification" element={<ResendVerification />} />
       <Route path="hotel/:id" element={<HotelDetailsPage />} />
+      <Route path="hotels" element={<HotelList />} />
     </Route>
     <Route path="/dashboard" element={<HotelDashboard />} >
       <Route index element={<HotelDashboard />} />

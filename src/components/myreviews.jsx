@@ -206,10 +206,11 @@ const ReviewPage = ({ hotelId }) => {
                 type="number"
                 min="1"
                 max="5"
-                value={formData.rating || 5}
+                value={formData.rating}
                 onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
                 className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400"
                 placeholder=""
+                required
               />
             </div>
 

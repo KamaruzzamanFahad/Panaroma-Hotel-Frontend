@@ -127,7 +127,7 @@ export default function MostBookedHotels({ hotel }) {
               Most booked hotels in Bangladesh in the past month
             </h2>
           </div>
-          <button className="mt-2 sm:mt-0 px-4 py-2 border border-cyan-500 text-cyan-400 rounded-lg hover:bg-cyan-500/10 transition-colors duration-300 text-sm font-medium whitespace-nowrap">
+          <button onClick={() => window.location.href = "/hotels"} className="mt-2 sm:mt-0 px-4 py-2 border border-cyan-500 text-cyan-400 rounded-lg hover:bg-cyan-500/10 transition-colors duration-300 text-sm font-medium whitespace-nowrap">
             See all
           </button>
         </div>

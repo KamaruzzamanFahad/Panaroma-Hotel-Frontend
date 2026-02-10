@@ -9,6 +9,10 @@ const LuxuryHeroSection = ({is_authenticated}) => {
   const [destination, setDestination] = useState('');
   const navigate = useNavigate();
 
+  const handleSearch = () => {
+    window.location.href = `/hotels?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}&destination=${destination}`;
+  };
+
   return (
     <div className="relative min-h-[70vh] w-full overflow-hidden">
       <div 
@@ -94,7 +98,7 @@ const LuxuryHeroSection = ({is_authenticated}) => {
                       <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0 ml-2" />
                     </div>
 
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl">
+                    <button onClick={handleSearch} className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl">
                       <Search className="w-5 h-5" />
                       Search
                     </button>
@@ -150,7 +154,7 @@ const LuxuryHeroSection = ({is_authenticated}) => {
                     <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
                   </div>
 
-                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg">
+                  <button onClick={handleSearch} className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg">
                     <Search className="w-5 h-5" />
                     Search
                   </button>

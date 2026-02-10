@@ -49,7 +49,7 @@ export default function TopPiksHotel({ hotel }) {
               Try one of these popular and highly-rated Bangladesh hotels
             </p>
           </div>
-          <button className="mt-2 sm:mt-0 px-4 py-2 border border-cyan-500 text-cyan-400 rounded-lg hover:bg-cyan-500/10 transition-colors duration-300 text-sm font-medium whitespace-nowrap">
+          <button onClick={() => window.location.href = "/hotels"} className="mt-2 sm:mt-0 px-4 py-2 border border-cyan-500 text-cyan-400 rounded-lg hover:bg-cyan-500/10 transition-colors duration-300 text-sm font-medium whitespace-nowrap">
             See all
           </button>
         </div>
@@ -196,13 +196,13 @@ export default function TopPiksHotel({ hotel }) {
         </div>
 
         
-        <div className="mt-12 text-center">
+        {/* <div className="mt-12 text-center">
           <button className="group relative px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/50 inline-flex items-center gap-2">
             <span className="relative z-10">View All Hotels</span>
             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </button>
-        </div>
+        </div> */}
       </div>
 
       
