@@ -33,7 +33,7 @@ const ProfileMenu = ({is_authenticated}) => {
   return (
     <>
           {is_authenticated ? (
-            <div className="relative flex items-center" ref={dropdownRef}>
+            <div className="relative flex items-center " ref={dropdownRef}>
               <button 
                 onClick={() => setOpen(!open)}
                 className="hover:opacity-80 transition-opacity"

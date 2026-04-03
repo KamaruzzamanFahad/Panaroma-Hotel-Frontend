@@ -1,11 +1,47 @@
-import React, { useState } from 'react';
-import { Star, MapPin, ChevronRight, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Star, MapPin, ChevronRight, ArrowRight, ChevronLeft, Calendar, Search, ChevronDown } from 'lucide-react';
+import axios from 'axios';
+import { useNavigate } from 'react-router';
 
-export default function TopPiksHotel({ hotel }) {
+
+export default function TopPiksHotel({ hotel,pagination }) {
   const [expandedHotel, setExpandedHotel] = useState(null);
+  const [currentHotelData, setCurrentHotelData] = useState(hotel || {});
+  const [loading, setLoading] = useState(false);
 
- 
-  const hotels = hotel?.results || [];
+    const [checkIn, setCheckIn] = useState('');
+  const [checkOut, setCheckOut] = useState('');
+  const [guests, setGuests] = useState('');
+  const [destination, setDestination] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    window.location.href = `/hotels?search=${destination}`;
+  };
+
+
+  useEffect(() => {
+    setCurrentHotelData(hotel || {});
+  }, [hotel]);
+
+  const handleFetchPage = async (url) => {
+    if (!url) return;
+    setLoading(true);
+    try {
+      const response = await axios.get(url);
+      setCurrentHotelData(response.data);
+      // Scroll to top of the component smoothly
+      document.getElementById('top-piks-section')?.scrollIntoView({ behavior: 'smooth' });
+    } catch (error) {
+      console.error("Error fetching paginated hotels:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const hotels = currentHotelData?.results || [];
+  const hasNext = !!currentHotelData?.next;
+  const hasPrev = !!currentHotelData?.previous;
 
  
   const calculateAverageRating = (reviews) => {
@@ -31,16 +67,131 @@ export default function TopPiksHotel({ hotel }) {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 overflow-hidden py-20">
+    <div className="min-h-screen bg-linear-to-b from-slate-950 via-slate-900 to-slate-950 overflow-hidden py-20">
       
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-40 right-20 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-40 left-20 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+      <div id="top-piks-section" className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-12 gap-4">
+        {
+          pagination ? (
+            <div className="w-full mb-10">
+              <div className="hidden lg:block">
+                <div className="bg-slate-800/40 backdrop-blur-md rounded-2xl p-4 border border-slate-700/50">
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 bg-slate-700/50 rounded-xl px-4 py-1 border-1  flex items-center gap-3 border-gray-400 hover:border-slate-500/50 transition-colors">
+                      <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                      <input
+                        type="text"
+                        placeholder="Search destinations"
+                        value={destination}
+                        onChange={(e) => setDestination(e.target.value)}
+                        className="bg-transparent text-white placeholder-gray-400 outline-none border-none w-full text-sm"
+                      />
+                    </div>
+
+                    <div className="flex-1 bg-slate-700/50 rounded-xl px-4 py-1 border-1  flex items-center gap-3 border-gray-400 hover:border-slate-500/50 transition-colors">
+                      <Calendar className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                      <input
+                        type="date"
+                        placeholder="Check in"
+                        value={checkIn}
+                        onChange={(e) => setCheckIn(e.target.value)}
+                        className="bg-transparent text-white placeholder-gray-400  border-none outline-none w-full text-sm"
+                      />
+                    </div>
+
+                    <div className="flex-1 bg-slate-700/50 rounded-xl px-4 py-1 border-1  flex items-center gap-3 border-gray-400 hover:border-slate-500/50 transition-colors">
+                      <Calendar className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                      <input
+                        type="date"
+                        placeholder="Check out"
+                        value={checkOut}
+                        onChange={(e) => setCheckOut(e.target.value)}
+                        className="bg-transparent text-white placeholder-gray-400 outline-none border-none w-full text-sm"
+                      />
+                    </div>
+
+                    <div className="flex-1 bg-slate-700/50 rounded-xl px-4 py-1 border-1  flex items-center gap-3 border-gray-400 hover:border-slate-500/50 transition-colors">
+                      <input
+                        type="text"
+                        placeholder="Add guests"
+                        value={guests}
+                        onChange={(e) => setGuests(e.target.value)}
+                        className="bg-transparent text-white placeholder-gray-400 outline-none border-none w-full text-sm"
+                      />
+                      <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0 ml-2" />
+                    </div>
+
+                    <button onClick={handleSearch} className="bg-blue-600 cursor-pointer hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl">
+                      <Search className="w-5 h-5" />
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:hidden">
+                <div className="bg-slate-800/40 backdrop-blur-md rounded-2xl p-4 border border-slate-700/50 space-y-3">
+                  <div className="bg-slate-700/50 rounded-xl px-4 py-1 flex items-center gap-3 border-1 border-gray-400">
+                    <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <input
+                      type="text"
+                      placeholder="Search destinations"
+                      value={destination}
+                      onChange={(e) => setDestination(e.target.value)}
+                      className="bg-transparent text-white placeholder-gray-400 outline-none border-none w-full text-sm"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-slate-700/50 rounded-xl px-4 py-1 flex items-center gap-3 border-1 border-gray-400">
+                      <Calendar className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                      <input
+                        type="text"
+                        placeholder="Check in"
+                        value={checkIn}
+                        onChange={(e) => setCheckIn(e.target.value)}
+                        className="bg-transparent text-white placeholder-gray-400 outline-none border-none w-full text-sm"
+                      />
+                    </div>
+
+                    <div className="bg-slate-700/50 rounded-xl px-4 py-1 flex items-center gap-3 border-1 border-gray-400">
+                      <Calendar className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                      <input
+                        type="text"
+                        placeholder="Check out"
+                        value={checkOut}
+                        onChange={(e) => setCheckOut(e.target.value)}
+                        className="bg-transparent text-white placeholder-gray-400 outline-none border-none w-full text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-700/50 rounded-xl px-4 py-1 flex items-center justify-between border-1 border-gray-400">
+                    <input
+                      type="text"
+                      placeholder="Add guests"
+                      value={guests}
+                      onChange={(e) => setGuests(e.target.value)}
+                      className="bg-transparent text-white placeholder-gray-400 outline-none border-none w-full text-sm"
+                    />
+                    <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                  </div>
+
+                  <button onClick={handleSearch} className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg">
+                    <Search className="w-5 h-5" />
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) :
+          (
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-12 gap-4">
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
               Top picks for hotels in Bangladesh
@@ -53,10 +204,29 @@ export default function TopPiksHotel({ hotel }) {
             See all
           </button>
         </div>
+          )
+        }
 
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {hotels.length > 0 ? (
+          {(loading || !currentHotelData.results) ? (
+            <div className="col-span-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[...Array(4)].map((_, index) => (
+                  <div key={index} className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden border border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300 backdrop-blur-xl group/card hover:shadow-xl hover:shadow-cyan-500/20 h-full">
+                    <div className="relative h-48 overflow-hidden">
+                      <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 animate-pulse"></div>
+                    </div>
+                    <div className="p-4">
+                      <div className="h-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded w-3/4 mb-2 animate-pulse"></div>
+                      <div className="h-4 bg-gradient-to-br from-slate-800 to-slate-900 rounded w-1/2 mb-2 animate-pulse"></div>
+                      <div className="h-4 bg-gradient-to-br from-slate-800 to-slate-900 rounded w-1/3 animate-pulse"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : hotels.length > 0 ? (
             hotels.map((hotelItem, index) => {
               const avgRating = calculateAverageRating(hotelItem.review);
               const numericRating = parseFloat(avgRating) || 0;
@@ -109,13 +279,16 @@ export default function TopPiksHotel({ hotel }) {
                       </div>
 
                       
-                      <p className="text-xs sm:text-sm text-slate-400 line-clamp-3 mb-3 flex-grow">
+                      <p className="text-xs sm:text-sm text-slate-400 line-clamp-3 mb-3 grow">
                         {hotelItem.description || "Experience comfort and luxury at this wonderful hotel located in the heart of Bangladesh."}
                       </p>
 
                       
                       <button 
-                        onClick={() => setExpandedHotel(expandedHotel === hotelItem.id ? null : hotelItem.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedHotel(expandedHotel === hotelItem.id ? null : hotelItem.id);
+                        }}
                         className="text-cyan-400 text-xs font-semibold hover:text-cyan-300 transition-colors mb-4 flex items-center gap-1"
                       >
                         {expandedHotel === hotelItem.id ? 'Show less' : 'Show more'}
@@ -175,25 +348,65 @@ export default function TopPiksHotel({ hotel }) {
               );
             })
           ) : (
-            <div className="col-span-full text-center py-12">
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {[...Array(4)].map((_, index) => (
-                  <div key={index} className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden border border-slate-700/50 hover:border-cyan-500/50 transition-all duration-300 backdrop-blur-xl group/card hover:shadow-xl hover:shadow-cyan-500/20 h-full">
-                    <div className="relative h-48 overflow-hidden">
-                      <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 animate-pulse"></div>
-                    </div>
-                    <div className="p-4">
-                      <div className="h-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded w-3/4 mb-2 animate-pulse"></div>
-                      <div className="h-4 bg-gradient-to-br from-slate-800 to-slate-900 rounded w-1/2 mb-2 animate-pulse"></div>
-                      <div className="h-4 bg-gradient-to-br from-slate-800 to-slate-900 rounded w-1/3 animate-pulse"></div>
-                    </div>
-                  </div>
-                ))}
+            <div className="col-span-full flex flex-col items-center justify-center py-20 text-center animate-fade-in">
+              <div className="w-20 h-20 bg-slate-800/50 rounded-full flex items-center justify-center mb-6 border border-slate-700/50 shadow-xl shadow-slate-900/50">
+                <Search size={32} className="text-slate-500" />
               </div>
+              <h3 className="text-2xl font-bold text-white mb-2">No hotels found</h3>
+              <p className="text-slate-400 max-w-md mx-auto">
+                We couldn't find any hotels matching your search. Try adjusting your filters or search for something else.
+              </p>
+              <button 
+                onClick={() => window.location.href = "/hotels"}
+                className="mt-8 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-blue-500/20 font-semibold"
+              >
+                Clear all filters
+              </button>
             </div>
           )}
         </div>
+
+        {/* Pagination UI */}
+        {pagination && (hasNext || hasPrev) && (
+          <div className="mt-16 flex items-center justify-center gap-6">
+            <button
+              onClick={() => handleFetchPage(currentHotelData.previous)}
+              disabled={!hasPrev || loading}
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all duration-300 ${
+                hasPrev && !loading
+                  ? "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 hover:shadow-lg hover:shadow-cyan-500/20 cursor-pointer"
+                  : "border-slate-800 text-slate-600 cursor-not-allowed"
+              }`}
+            >
+              <ChevronLeft size={20} />
+              <span className="font-semibold uppercase tracking-wider text-xs">Previous</span>
+            </button>
+
+            <div className="flex items-center gap-2 px-4 py-2 bg-slate-900/50 border border-slate-800 rounded-lg backdrop-blur-sm">
+              <span className="text-cyan-400 font-bold">
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-cyan-500/30 border-t-cyan-500 rounded-full animate-spin"></div>
+                ) : (
+                  currentHotelData.count > 0 ? Math.ceil(hotels.length > 0 ? (currentHotelData.results.length) : 0) : 0
+                )}
+              </span>
+              <span className="text-slate-500 text-xs font-medium">results shown</span>
+            </div>
+
+            <button
+              onClick={() => handleFetchPage(currentHotelData.next)}
+              disabled={!hasNext || loading}
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all duration-300 ${
+                hasNext && !loading
+                  ? "border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 hover:shadow-lg hover:shadow-cyan-500/20 cursor-pointer"
+                  : "border-slate-800 text-slate-600 cursor-not-allowed"
+              }`}
+            >
+              <span className="font-semibold uppercase tracking-wider text-xs">Next</span>
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        )}
 
         
         {/* <div className="mt-12 text-center">

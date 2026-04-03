@@ -24,7 +24,7 @@ const Home = () => {
         <LuxuryHeroSection is_authenticated={is_authenticated} />
         
         <MostBookedHotels hotel={hotel} />
-        <TopPiksHotel hotel={hotel} />
+        <TopPiksHotel pagination={false} hotel={hotel} />
         <DestinationGrid />
         
         <Testimonials />

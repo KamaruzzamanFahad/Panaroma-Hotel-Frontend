@@ -12,16 +12,16 @@ const Navber = ({is_authenticated}) => {
           <img src={img} className="mr-3 h-6 sm:h-9" alt="Panaroma Logo" />
         </NavbarBrand>
         <NavbarToggle />
-        <NavbarCollapse>
+        <NavbarCollapse className="pt-2">
           <NavbarLink href="#" active>
             Home
           </NavbarLink>
-          <NavbarLink as={Link} to="#">
+          <NavbarLink as={Link} to="/about">
             About
           </NavbarLink>
           <NavbarLink as={Link} to="/#">Services</NavbarLink>
           <NavbarLink as={Link} to="#">Pricing</NavbarLink>
-          <NavbarLink as={Link} to="#">Contact</NavbarLink>
+          <NavbarLink as={Link} to="/contact">Contact</NavbarLink>
           
           <ProfileMenu is_authenticated={is_authenticated}/>
         </NavbarCollapse>

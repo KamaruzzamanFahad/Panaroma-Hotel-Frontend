@@ -13,29 +13,40 @@ import HotelDetailsPage from '../pages/HotelDetils'
 import HotelDashboard from '../layouts/Dashboard'
 import PaymentStatus from '../layouts/PaymentStatus'
 import HotelList from '../components/HotelList'
+import About from '../pages/About'
+import Contact from '../pages/Contact'
+
+import AIChatBot from '../components/AIChatBot'
 
 const AppRouts = () => {
     axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL || "https://penorama-hotel.vercel.app/api/v1/";
 
-  return <Routes>
-    <Route path="/" element={<MainLayouts />} >
-      <Route index element={<Home />} />
-      <Route path="auth/register" element={<Register />} />
-      <Route path="auth/login" element={<Login />} />
-      <Route path="auth/reset-password" element={<ResetPassword />} />
-      <Route path="auth/reset/:uid/:token" element={<ResetPasswordConfirm />} />
-      <Route path="auth/activate/:uid/:token" element={<Activate />} />
-      <Route path="auth/resend-verification" element={<ResendVerification />} />
-      <Route path="hotel/:id" element={<HotelDetailsPage />} />
-      <Route path="hotels" element={<HotelList />} />
-    </Route>
-    <Route path="/dashboard" element={<HotelDashboard />} >
-      <Route index element={<HotelDashboard />} />
-      
-    </Route>
-    <Route path="/dashboard/payment" element={<PaymentStatus />} />
-    
-  </Routes>
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<MainLayouts />} >
+          <Route index element={<Home />} />
+          <Route path="auth/register" element={<Register />} />
+          <Route path="auth/login" element={<Login />} />
+          <Route path="auth/reset-password" element={<ResetPassword />} />
+          <Route path="auth/reset/:uid/:token" element={<ResetPasswordConfirm />} />
+          <Route path="auth/activate/:uid/:token" element={<Activate />} />
+          <Route path="auth/resend-verification" element={<ResendVerification />} />
+          <Route path="hotel/:id" element={<HotelDetailsPage />} />
+          <Route path="hotels" element={<HotelList />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+        </Route>
+        <Route path="/dashboard" element={<HotelDashboard />} >
+          <Route index element={<HotelDashboard />} />
+          
+        </Route>
+        <Route path="/dashboard/payment" element={<PaymentStatus />} />
+        
+      </Routes>
+      <AIChatBot />
+    </>
+  )
 }
 
 export default AppRouts

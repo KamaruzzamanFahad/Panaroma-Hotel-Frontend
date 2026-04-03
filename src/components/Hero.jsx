@@ -10,7 +10,7 @@ const LuxuryHeroSection = ({is_authenticated}) => {
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    window.location.href = `/hotels?checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}&destination=${destination}`;
+    window.location.href = `/hotels?search=${destination}`;
   };
 
   return (
@@ -22,7 +22,7 @@ const LuxuryHeroSection = ({is_authenticated}) => {
         }}
       />
 
-      <div className="relative z-10 flex flex-col">
+      <div className="relative z-10 flex flex-col mt-20">
         <div className="container mx-auto items-center justify-center px-4  pt-20 pb-32">
           <div className="">
             <div className="mb-12 md:mb-16">

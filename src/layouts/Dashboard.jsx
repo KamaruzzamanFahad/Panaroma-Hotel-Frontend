@@ -6,6 +6,7 @@ import axios from 'axios';
 import ProfileMenu from './ProfileMenu';
 import UserManagement from '../components/UserManagement';
 import Payment from '../components/payment';
+import MyBookings from '../components/MyBookings';
 import { ToastContainer } from 'react-toastify';
 
 const weeklyBookings = [
@@ -30,7 +31,7 @@ export default function HotelDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeMenu, setActiveMenu] = useState('payment');
+  const [activeMenu, setActiveMenu] = useState('my-bookings');
 
   const is_authenticated = localStorage.getItem("access");
   const [is_Admin, setIsAdmin] = useState('');
@@ -40,11 +41,13 @@ export default function HotelDashboard() {
       return [
         { id: 'dashboard', name: 'Dashboard', icon: Home },
         { id: 'hotel', name: 'Hotel Management', icon: Building2 },
+        { id: 'my-bookings', name: 'My Bookings', icon: Calendar },
         { id: 'payment', name: 'Payment', icon: CreditCard },
         { id: 'users', name: 'User Management', icon: UserCog },
       ];
     }
     return [
+      { id: 'my-bookings', name: 'My Bookings', icon: Calendar },
       { id: 'payment', name: 'Payment', icon: CreditCard },
       { id: 'users', name: 'User Management', icon: UserCog },
     ];
@@ -210,6 +213,7 @@ export default function HotelDashboard() {
                   {activeMenu === 'hotel' && 'Manage hotels and rooms'}
                   {activeMenu === 'payment' && 'View and manage payments'}
                   {activeMenu === 'users' && 'Manage users and permissions'}
+                  {activeMenu === 'my-bookings' && 'View your hotel room bookings history'}
                 </p>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-purple-600/20 rounded-lg border border-purple-500/30">
@@ -404,6 +408,12 @@ export default function HotelDashboard() {
         {activeMenu === 'users' && (
           <div className="px-6 py-8">
             <UserManagement/>
+          </div>
+        )}
+
+        {activeMenu === 'my-bookings' && (
+          <div className="px-6 py-8">
+            <MyBookings/>
           </div>
         )}
       </div>
