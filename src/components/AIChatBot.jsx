@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Bot, User, Loader2 } from 'lucide-react';
 
 const FREE_MODELS = [
+    "deepseek/deepseek-chat:free",
+    "x-ai/grok-4.1-fast:free",
     "stepfun/step-3.5-flash:free",
     "openai/gpt-oss-120b:free",
     "nvidia/nemotron-3-super-120b-a12b:free",
